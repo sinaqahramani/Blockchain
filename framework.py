@@ -11,12 +11,43 @@ node = str(uuid4()).replace('-', '')
 # Instantiate the Blockchain
 blockchain = Blockchain()
 
-
+# Create the /mine endpoint, which is a GET request.
+# It has to do three things:
+#  - Calculate the Proof of Work
+#  - Reward the miner (us) by adding a transaction granting us 1 coin
+#  - Forge the new Block by adding it to the chain
 @app.route('/mine', methods=['GET'])
 def mine():
-    return "We'll mine a new block"
+    # Run the POW alogorithm to get the next proof.
+    last_block = blockchain.last_block
+    last_proof = last_block['proof']
+    proof = blockchain.pow(last_proof)
+
+    # We must receive a reward for finding the proof.
+    # The sender is "0" to signify that this node has mined a new coin.
+
+    blockchain.new_trx(
+        sender="0",
+        recipient=node,
+        amount=1,
+    )
+
+    # Forge the new Block by adding it to the chain
+    previous_hash = blockchain.hash(last_block)
+    block = blockchain.new_block(proof, previous_hash)
+
+    res = {
+        'message': "new Block Forged",
+        'index': block['index'],
+        'transactions': block['transactions'],
+        'proof': block['proof'],
+        'previous_hash':block['previous_hash'],
+    }
+    return jsonify(res), 200
 
 
+# Create the /transactions/new endpoint,
+# which is a POST request, since we’ll be sending data to it
 @app.route('/trx/new', methods=['POST'])
 def new_trx():
     values = request.get_json()
@@ -33,7 +64,7 @@ def new_trx():
 
     return jsonify(res), 201
 
-
+# Create the /chain endpoint, which returns the full Blockchain:
 @app.route('/chain', methods=['GET'])
 def full_chain():
     res = {
