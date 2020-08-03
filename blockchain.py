@@ -15,7 +15,7 @@ class Blockchain():
         # Create the genesis block:
         self.new_block(previous_hash=1, proof=100)
 
-    def new_block(self, proof, previous_hash = None):
+    def new_block(self, proof, previous_hash=None):
         """
         Creates a new Block in the Blockchain
         :param proof: <int> The proof given by the Proof of Work algorithm
@@ -35,7 +35,7 @@ class Blockchain():
         self.chain.append(block)
         return block
 
-    def new_trx(self,sender, recipient, amount):
+    def new_trx(self, sender, recipient, amount):
         """
         Creates a new transaction to go into the next mined Block
         :param sender: <str> Address of the Sender
