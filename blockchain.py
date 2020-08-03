@@ -5,11 +5,29 @@ class Blockchain():
     """
     def __init__(self):
         self.chain = []
-    self.current_trxs = []
+        self.current_trxs = []
+        # Create the genesis block:
+        self.new_block()
 
-    def new_block(self):
-        """Creats a new Block and adds it to the chain"""
-        pass
+    def new_block(self, proof, previous_hash = None):
+        """
+        Creates a new Block in the Blockchain
+        :param proof: <int> The proof given by the Proof of Work algorithm
+        :param previous_hash: (Optional) <str> Hash of previous Block
+        :return: <dict> New Block
+        """
+        block = {
+            'index': len(self.chain) + 1,
+            'timestamp': time(),
+            'transaction': self.current_trxs,
+            'proof': proof,
+            'previous_hash': previous_hash or self.hash(self.chain[-1]),
+        }
+
+        # Reset the current list of transactions:
+        self.current_trxs = []
+        self.chain.append(block)
+        return block
 
     def new_trx(self,sender, recipient, amount):
         """
