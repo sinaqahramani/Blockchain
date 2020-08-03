@@ -1,6 +1,11 @@
+import hashlib
+import json
 from time import time
+
+
 class Blockchain():
-    """This class is responsible for managing the chain.
+    """
+    This class is responsible for managing the chain.
     It will store transactions and have some helper methods
     for adding new blocks to the chain.
     """
@@ -54,6 +59,13 @@ class Blockchain():
 
     @staticmethod
     def hash(block):
-        """Hash a Block"""
-        pass
+        """
+        Creates a SHA-256 hash of a Block
+        :param block: <dict> Block
+        :return: <str>
+        """
+
+        # We must make sure that the Dictionary is Ordered, or we'll have inconsistent hashes
+        block_str = json.dumps(block, sort_keys=True).encode()
+        return hashlib.sha256(block_str).hexdigest()
 
