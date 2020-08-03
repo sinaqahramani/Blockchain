@@ -1,3 +1,4 @@
+from time import time
 class Blockchain():
     """This class is responsible for managing the chain.
     It will store transactions and have some helper methods
@@ -7,7 +8,7 @@ class Blockchain():
         self.chain = []
         self.current_trxs = []
         # Create the genesis block:
-        self.new_block()
+        self.new_block(previous_hash=1, proof=100)
 
     def new_block(self, proof, previous_hash = None):
         """
@@ -46,12 +47,13 @@ class Blockchain():
 
         return self.last_block['index'] + 1
 
+    @property
+    def last_block(self):
+        """Returns the last Block in the chain"""
+        return self.chain[-1]
+
     @staticmethod
     def hash(block):
         """Hash a Block"""
         pass
 
-    @property
-    def last_block(self):
-        """Returns the last Block in the chain"""
-        pass
