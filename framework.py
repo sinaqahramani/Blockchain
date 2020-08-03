@@ -52,12 +52,12 @@ def mine():
 def new_trx():
     values = request.get_json()
     # check that te required fields are in the POSTed data:
-    required = ['sender', 'recepient', 'amount']
+    required = ['sender', 'recipient', 'amount']
     if not all (k in values for k in required):
         return 'Missing Values', 400
 
     # Create a new Transaction
-    index = blockchain.new_trx(values['sender'], values['recepient'], values['amount'])
+    index = blockchain.new_trx(values['sender'], values['recipient'], values['amount'])
     res = {
         'message': f'Transaction will be added to Block {index}'
     }
