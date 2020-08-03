@@ -1,4 +1,8 @@
 class Blockchain():
+    """This class is responsible for managing the chain.
+    It will store transactions and have some helper methods
+    for adding new blocks to the chain.
+    """
     def __init__(self):
         self.chain = []
         self.current_trx = []
