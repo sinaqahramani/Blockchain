@@ -1,6 +1,7 @@
-from blockchain import Blockchain
-from flask import Flask, jsonify, request
 from uuid import uuid4
+from flask import Flask, jsonify, request
+from blockchain import Blockchain
+
 
 # Instantiate Our Node
 app = Flask(__name__)
